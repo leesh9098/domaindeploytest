@@ -1,0 +1,11 @@
+slslambdaedge:
+  component: "@sls-next/serverless-component@3.7.0-alpha.10"
+  inputs:
+    name:
+      defaultLambda: DefaultLambda
+      imageLambda: ImageLambda
+    bucketRegion: us-east-1
+    bucketName: 'domaindeploytest'
+    cloudfront:
+      distributionId: 'ESIOQ5ZPA1T6K'
+      comment: 'next deploy'
