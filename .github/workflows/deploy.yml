@@ -3,24 +3,29 @@ on:
   push:
     branches: master
 jobs:
-  build:
+  continuous-deployment:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code.
         uses: actions/checkout@v2
+
+      - name: use Node ver 12.x
+        uses: actions/setup-node@v1
         with:
-          ref: master
-      - name: Install with npm
+          node-version: 12.x
+      - name: Build
         run: |
-          npm install
+          npm run build
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+      - Deploy to S3:
+        run: aws s3 sync ./${{ secrets.BUILD_DIRECTORY }} ${{ secrets.AWS_S3)BUCKET_NAME }} --acl public-read --delete
       - name: CF Invalidate Cache
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
-      - name: Deploy App
-        run: |
-          npx serverless@2.72.2
+      # - name: Deploy App
+      #   run: |
+      #     npx serverless@2.72.2
