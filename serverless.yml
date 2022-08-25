@@ -7,5 +7,5 @@ domaindeploytest:
     bucketRegion: us-east-1
     bucketName: 'domaindeploytest'
     cloudfront:
-      distributionId: 'E1T189ZLDMD266'
+      distributionId: 'E2AVLRM8CWJQPZ'
       comment: 'next deploy'
