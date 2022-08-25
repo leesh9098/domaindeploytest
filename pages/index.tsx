@@ -9,6 +9,9 @@ const Home: NextPage = () => {
       <h1>
         2022.08.18 automatically deployed with github action and AWS
       </h1>
+      <h1>
+        2022.08.25 check
+      </h1>
     </>
   )
 }
