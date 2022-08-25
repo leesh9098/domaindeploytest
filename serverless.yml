@@ -1,7 +1,7 @@
 domaindeploytest:
   component: "@sls-next/serverless-component@3.7.0-alpha.10"
   inputs:
-    policy: "arn:aws:lambda:us-east-1:980924604087:function:DefaultLambda"
+    policy: "arn:aws:iam::980924604087:user/domaindeploytest"
     name:
       defaultLambda: DefaultLambda
       imageLambda: ImageLambda
