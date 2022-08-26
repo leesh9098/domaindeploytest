@@ -1,6 +1,7 @@
 domaindeploytest:
   component: "@sls-next/serverless-component@3.7.0-alpha.10"
   inputs:
+    domain: ["domaindeploytest.s3-website-us-east-1.amazonaws.com/", "weatly.co.kr"]
     policy: "arn:aws:iam::aws:policy/AdministratorAccess"
     name:
       defaultLambda: DefaultLambda
