@@ -1,10 +1,4 @@
-import type { GetStaticProps } from 'next'
-
-type ServerTimeProps = {
-  st: string
-}
-
-export default function Home({ st }: ServerTimeProps) {
+export default function Home() {
   return (
     <>
       <h1>
@@ -16,20 +10,6 @@ export default function Home({ st }: ServerTimeProps) {
       <h1>
         2022.08.25 deploy to domain with serverless
       </h1>
-      <h1>
-        {`Time: ${st}`}
-      </h1>
     </>
   )
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const fetchServerTime = await fetch("http://localhost:3000/api/servertime");
-  const response = await fetchServerTime.json();
-
-  return {
-    props: {
-      st: response.servertime
-    }
-  }
 }
