@@ -10,6 +10,9 @@ export default function Home() {
       <h1>
         2022.08.25 deploy to domain with serverless
       </h1>
+      <h1>
+        2022.08.30 last test
+      </h1>
     </>
   )
 }
