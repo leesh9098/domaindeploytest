@@ -24,4 +24,4 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Deploy by serverless
         # run: components-v1
-        run: serverless deploy function -f functiontest
+        run: serverless deploy function -f functiontest --component
