@@ -1,5 +1,5 @@
-FROM node:14.18.0
-WORKDIR /domaindeploytest
+FROM node:16-alpine3.11
+WORKDIR ./domaindeploytest
 ENV PORT 80
 COPY . /domaindeploytest
 RUN npm install
