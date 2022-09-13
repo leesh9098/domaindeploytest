@@ -1,27 +1,136 @@
-name: NEXT Deploy
+# name: NEXT Deploy
+# on:
+#   push:
+#     branches: master
+# jobs:
+#   continuous-deployment:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout source code.
+#         uses: actions/checkout@v2
+#         with:
+#           ref: master
+#       # - name: install serverless
+#       #   run: npm i -g serverless@2.72.2
+#       - name: Install serverless cli
+#         run: npm install -g @serverless/cli
+#       - name: npm Install
+#         run: npm install
+#       - name: Configure AWS Credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ${{ secrets.AWS_REGION }}
+#       - name: Deploy by serverless
+#         run: components-v1
+
+# name: NEXT Deploy with EC2
+# on:
+#   push:
+#     branches: master
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout source code.
+#         uses: actions/checkout@v2
+#       - name: Use Node.js 14.x
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: 14.x
+#       - name: Install dependencies
+#         run: npm install
+
+#       - name: create env file
+#         working-directory: ./server
+#         run:
+#           touch .env
+#           cat << EOF >> .env
+#           ${{ secrets.ENV }}
+
+#       - name: zip distributions
+#         run: zip -r domaindeploytest.zip ./client/dist ./server ./appspec.yml ./scripts
+
+#       - name: AWS Configure credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ap-northeast-2
+
+#       - name: upload to s3
+#         run: aws s3 cp --region ap-northeast-2 ./domaindeploytest.zip s3://domaindeploytest/public/
+
+#       - name: deploy with AWS codeDeploy
+#         run: aws deploy create-deployment
+#           --application-name zip-codedeploy
+#           --deployment-config-name CodeDeployDefault.OneAtTime
+#           --deployment-group-name domaindeploytestgroup
+#           --s3-location bucket=domaindeploytest,bundleType=zip,key=public/domaindeploytest.zip
+
+name: Deploy to Amazon ECS
+
 on:
-  push:
-    branches: master
+  release:
+    types: [created]
+
+env:
+  AWS_REGION: ap-northeast-2
+  ECR_REPOSITORY: demo-deploy
+  ECS_SERVICE: domaindeploytestservice
+  ECS_CLUSTER: domaindeploytestcluster
+  ECS_TASK_DEFINITION: .aws/task-definition.json
+  CONTAINER_NAME: domaindeploytestcontainer
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  continuous-deployment:
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
     steps:
-      - name: Checkout source code.
+      - name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: master
-      - name: install serverless
-        run: npm i -g serverless@2.72.2
-      # - name: Install serverless cli
-      #   run: npm install -g @serverless/cli
-      - name: npm Install
-        run: npm install
-      - name: Configure AWS Credentials
+
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-      - name: Deploy by serverless
-        # run: components-v1
-        run: serverless deploy function -f functiontest --component
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
