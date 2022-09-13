@@ -13,6 +13,9 @@ export default function Home() {
       <h1>
         2022.08.30 serverless function test
       </h1>
+      <h1>
+        2022.09.13 ECS Test
+      </h1>
     </>
   )
 }
