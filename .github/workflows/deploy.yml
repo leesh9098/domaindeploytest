@@ -77,7 +77,7 @@ on:
 
 env:
   AWS_REGION: ap-northeast-2
-  ECR_REPOSITORY: demo-deploy
+  ECR_REPOSITORY: domaindeploytest
   ECS_SERVICE: domaindeploytestservice
   ECS_CLUSTER: domaindeploytestcluster
   ECS_TASK_DEFINITION: .aws/task-definition.json
