@@ -72,8 +72,10 @@
 name: Deploy to Amazon ECS
 
 on:
-  release:
-    types: [created]
+  # release:
+  #   types: [created]
+  push:
+    branches: [master]
 
 env:
   AWS_REGION: ap-northeast-2
