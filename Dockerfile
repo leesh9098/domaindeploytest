@@ -1,6 +1,6 @@
 FROM node:16-alpine3.11
-WORKDIR /home/ubuntu/domaindeploytest
+WORKDIR /domaindeploytest
 ENV PORT 80
-COPY . /home/ubuntu/domaindeploytest
+COPY . /domaindeploytest
 RUN npm install
 CMD ["npm", "run", "dev"]
