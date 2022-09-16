@@ -1,4 +1,10 @@
-export default function Home() {
+import { GetStaticProps } from "next"
+
+interface Props {
+  serverTime: any;
+}
+
+export default function Home({ serverTime }: Props) {
   return (
     <>
       <h1>
@@ -16,6 +22,18 @@ export default function Home() {
       <h1>
         2022.09.13 ECS Deploy Test
       </h1>
+      <h1>Now : {serverTime.serverTime}</h1>
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const res = await fetch("https://dev.trepick.com/api/serverTime");
+  const result = await res.json();
+
+  return {
+    props: {
+      serverTime: result
+    }
+  }
 }
