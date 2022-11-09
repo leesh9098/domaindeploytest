@@ -9,9 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-amplify/ui-react": "^3.5.11",
+    "@tosspayments/payment-sdk": "^1.1.1",
+    "@types/styled-components": "^5.1.26",
+    "axios": "^1.1.0",
     "next": "12.2.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "styled-components": "^5.3.6",
+    "styled-reset": "^4.4.2"
   },
   "devDependencies": {
     "@types/node": "18.7.14",
