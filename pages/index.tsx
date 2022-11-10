@@ -1,6 +1,4 @@
 import { GetStaticProps } from "next"
-import HeroLayout1 from "../src/ui-components/HeroLayout1";
-import HomeCard from "../src/ui-components/HomeCard";
 
 interface Props {
   serverTime: any;
@@ -25,15 +23,6 @@ export default function Home({ serverTime }: Props) {
         2022.09.13 ECS Deploy Test
       </h1>
       <h1>Now : {serverTime.serverTime}</h1>
-      <HeroLayout1 testModel={{
-        id: "1",
-        src: "https://picsum.photos/seed/picsum/200/300"
-      }} />
-      <HomeCard testModel={{
-        id: "",
-        src: "https://dev.trepick.com/images/logo_bluefrog_black.png",
-        mainText: "main text area"
-      }} />
     </>
   )
 }

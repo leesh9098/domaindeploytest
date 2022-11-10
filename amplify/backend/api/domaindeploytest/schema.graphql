@@ -1,6 +1,0 @@
-type TestModel @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  mainText: String
-  subText: String
-  src: String
-}
