@@ -173,16 +173,16 @@ jobs:
 
       - name: Build and tag image
         run: |-
-          docker build . --tag "gcr.id/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA"
+          docker build . --tag "gcr.id/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA:latest"
 
       - name: Push image to GCR
         run: |-
-          docker push gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA
+          docker push gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA:latest
 
       - name: Deploy
         run: |-
           gcloud components install beta --quiet
-          gcloud beta run deploy $REPO_NAME --image gcr.id/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA \
+          gcloud beta run deploy $REPO_NAME --image gcr.id/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA:latest \
             --project $CLOUD_RUN_PROJECT_ID \
             --platform managed \
             --region $CLOUD_RUN_REGION \
