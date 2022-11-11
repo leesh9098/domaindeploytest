@@ -177,7 +177,7 @@ jobs:
 
       - name: Push image to GCR
         run: |-
-          docker push gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB-SHA
+          docker push gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA
 
       - name: Deploy
         run: |-
