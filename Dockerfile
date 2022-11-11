@@ -30,7 +30,7 @@
 # ------------------------------------------------------------
 
 FROM node:16-alpine
-WORKDIR /usr/app
+WORKDIR /app
 COPY . .
 RUN npm ci --only=production
 RUN npm run build
