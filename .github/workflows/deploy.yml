@@ -144,8 +144,7 @@ name: Next Deploy on Google Cloud Run
 
 on:
   push:
-    branches:
-      -master
+    branches: [ master ]
 
 env:
   CLOUD_RUN_PROJECT_ID: ${{ secrets.CLOUD_RUN_PROJECT_NAME }}
