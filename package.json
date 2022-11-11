@@ -6,11 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p $PORT",
-    "lint": "next lint",
-    "vercel-deploy": "next build",
-    "netlify-deploy": "next build",
-    "create_domain": "sls create_domain",
-    "deploy": "sh ./scripts/build.sh"
+    "lint": "next lint"
   },
   "dependencies": {
     "@tosspayments/payment-sdk": "^1.1.1",
