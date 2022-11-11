@@ -140,4 +140,52 @@
 
 # -------------------------------------------------------------------------------------------------------------------
 
-# name: Next Deploy 
+name: Next Deploy on Google Cloud Run
+
+on:
+  push:
+    branches:
+      -master
+
+env:
+  CLOUD_RUN_PROJECT_ID: ${{ secrets.CLOUD_RUN_PROJECT_NAME }}
+  CLOUD_RUN_REGION: asia-northeast3
+  REPO_NAME: domaindeploytest
+
+jobs:
+  build-and-deploy:
+    name: Setup, Build, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.CLOUD_RUN_PROJECT_NAME }}
+          service_account_key: ${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT }}
+          service_account_email: ${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT_EMAIL }}
+
+      - name: Enable the necessary APIs and enable docker auth
+        run: |-
+          gcloud services enable containerregistry.googleapis.com
+          gcloud services enable run.googleapis.com
+          gcloud --quiet auth configure-docker
+
+      - name: Build and tag image
+        run: |-
+          docker build . --tag "gcr.id/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA"
+
+      - name: Push image to GCR
+        run: |-
+          docker push gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB-SHA
+
+      - name: Deploy
+        run: |-
+          gcloud components install beta --quiet
+          gcloud beta run deploy $REPO_NAME --image gcr.id/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA \
+            --project $CLOUD_RUN_PROJECT_ID \
+            --platform managed \
+            --region $CLOUD_RUN_REGION \
+            --allow-unauthenticated \
+            --quiet
