@@ -5,17 +5,24 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p $PORT",
     "lint": "next lint",
     "vercel-deploy": "next build",
-    "netlify-deploy": "next build"
+    "netlify-deploy": "next build",
+    "create_domain": "sls create_domain",
+    "deploy": "sh ./scripts/build.sh"
   },
   "dependencies": {
     "@tosspayments/payment-sdk": "^1.1.1",
+    "@vendia/serverless-express": "^4.10.1",
     "axios": "^1.1.0",
+    "express": "^4.18.2",
     "next": "^12.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "serverless-http": "^3.1.0",
+    "serverless-webpack": "^5.10.0",
+    "source-map-support": "^0.5.21",
     "styled-components": "^5.3.6",
     "styled-reset": "^4.4.2"
   },
@@ -24,8 +31,10 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "@types/styled-components": "^5.1.26",
+    "esbuild": "^0.15.13",
     "eslint": "8.23.0",
     "eslint-config-next": "12.2.5",
+    "serverless-esbuild": "^1.33.1",
     "typescript": "4.8.2"
   }
 }
