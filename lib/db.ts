@@ -8,8 +8,10 @@ export class AWSDynamoDBClient {
 
 
         AWS.config.update({
-            accessKeyId: 'AKIA6IY5JT23TVVTJVIM',
-            secretAccessKey: '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',
+            // accessKeyId: 'AKIA6IY5JT23TVVTJVIM',
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            // secretAccessKey: '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',
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
             region: 'ap-northeast-2'
         })
 

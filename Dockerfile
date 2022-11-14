@@ -31,6 +31,8 @@
 
 FROM node:16-alpine
 WORKDIR /app
+ENV AWS_ACCESS_KEY_ID AKIA6IY5JT23TVVTJVIM
+ENV AWS_SECRET_ACCESS_KEY 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
 COPY . .
 RUN npm ci --only=production
 RUN npm run build
