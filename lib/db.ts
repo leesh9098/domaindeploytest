@@ -14,7 +14,7 @@ export class AWSDynamoDBClient {
         //     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
         //     region: 'ap-northeast-2'
         // })
-        this.db = new AWS.DynamoDB.DocumentClient();
+        this.db = new AWS.DynamoDB.DocumentClient({ region: process.env.AWS_DEFAULT_REGION });
         // if (!endpoint) {
         //     this.db = new AWS.DynamoDB.DocumentClient({
         //         region: region,
