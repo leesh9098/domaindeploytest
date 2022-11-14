@@ -6,12 +6,12 @@ interface Props {
 }
 
 export default function Home({ serverTime }: Props) {
-  const [data, setData] = useState("");
   
   const getData = async () => {
     await fetch("/api/eventLog")
     .then(res => res.json())
-    .then(res => setData(res));
+    .then(res => console.log(res))
+    .catch(err => console.error(err))
   }
 
   return (
@@ -33,7 +33,6 @@ export default function Home({ serverTime }: Props) {
       </h1>
       <h1>Now : {serverTime.serverTime}</h1>
       <button onClick={getData}>Get Dynamodb's Item</button>
-      <b>{data}</b>
     </>
   )
 }
