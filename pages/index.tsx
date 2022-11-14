@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next"
+import { GetServerSideProps, GetStaticProps } from "next"
 
 interface Props {
   serverTime: any;
@@ -27,10 +27,21 @@ export default function Home({ serverTime }: Props) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch("https://dev.trepick.com/api/serverTime");
-  const result = await res.json();
+// export const getStaticProps: GetStaticProps = async () => {
+//   const res = await fetch("https://dev.trepick.com/api/serverTime");
+//   const result = await res.json();
 
+//   return {
+//     props: {
+//       serverTime: result
+//     }
+//   }
+// }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const res = await fetch("https://domaindeploytest-elmwy7yiea-du.a.run.app/api/serverTime");
+  const result = await res.json();
+  
   return {
     props: {
       serverTime: result
