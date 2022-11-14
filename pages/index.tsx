@@ -1,5 +1,4 @@
 import { GetServerSideProps, GetStaticProps } from "next"
-import { useState } from "react";
 
 interface Props {
   serverTime: any;
@@ -8,7 +7,13 @@ interface Props {
 export default function Home({ serverTime }: Props) {
   
   const getData = async () => {
-    await fetch("/api/eventLog")
+    await fetch("/api/eventLog", {
+      method: 'POST',
+      body: JSON.stringify({
+        userInfo: '010-0000-0000',
+        storyName: '스토리이름'
+      })
+    })
     .then(res => res.json())
     .then(res => console.log(res))
     .catch(err => console.error(err))

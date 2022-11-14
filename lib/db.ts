@@ -3,8 +3,8 @@ import * as AWS from 'aws-sdk';
 export class AWSDynamoDBClient {
     db: AWS.DynamoDB.DocumentClient;
     constructor() {
-        const region = process.env.AWS_DDB_REGION;
-        const endpoint = process.env.AWS_DDB_ENDPOINT;
+        const region = 'ap-northeast-2';
+        const endpoint = "dynamodb.ap-northeast-2.amazonaws.com";
 
         if (!endpoint) {
             this.db = new AWS.DynamoDB.DocumentClient({
