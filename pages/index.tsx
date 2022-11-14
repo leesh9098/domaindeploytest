@@ -1,10 +1,19 @@
 import { GetServerSideProps, GetStaticProps } from "next"
+import { useState } from "react";
 
 interface Props {
   serverTime: any;
 }
 
 export default function Home({ serverTime }: Props) {
+  const [data, setData] = useState("");
+  
+  const getData = async () => {
+    await fetch("/api/eventLog")
+    .then(res => res.json())
+    .then(res => setData(res));
+  }
+
   return (
     <>
       <h1>
@@ -23,6 +32,8 @@ export default function Home({ serverTime }: Props) {
         2022.09.13 ECS Deploy Test
       </h1>
       <h1>Now : {serverTime.serverTime}</h1>
+      <button>Get Dynamodb's Item</button>
+      <b>{data}</b>
     </>
   )
 }
