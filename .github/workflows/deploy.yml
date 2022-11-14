@@ -164,6 +164,13 @@ jobs:
           project_id: ${{ secrets.CLOUD_RUN_PROJECT_NAME }}
           service_account_key: ${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT }}
           service_account_email: ${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT_EMAIL }}
+          
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: AKIA6IY5JT23TVVTJVIM
+          aws-secret-access-key: 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
+          aws-region: ap-northeast-2
 
       - name: Enable the necessary APIs and enable docker auth
         run: |-
