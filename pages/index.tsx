@@ -32,7 +32,7 @@ export default function Home({ serverTime }: Props) {
         2022.09.13 ECS Deploy Test
       </h1>
       <h1>Now : {serverTime.serverTime}</h1>
-      <button>Get Dynamodb's Item</button>
+      <button onClick={getData}>Get Dynamodb's Item</button>
       <b>{data}</b>
     </>
   )
