@@ -173,9 +173,7 @@ jobs:
 
       - name: Build and tag image
         run: |-
-          echo $CLOUD_RUN_PROJECT_ID
-          echo $REPO_NAME
-          docker build . --tag gcr.id/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA
+          docker build . --tag gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA
 
       - name: Push image to GCR
         run: |-
