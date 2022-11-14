@@ -7,15 +7,18 @@ interface Props {
 export default function Home({ serverTime }: Props) {
   
   const getData = async () => {
-    await fetch("/api/eventLog", {
+    await fetch('/api/eventLog', {
       method: 'POST',
       body: JSON.stringify({
         userInfo: '010-0000-0000',
         storyName: '스토리이름'
-      })
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }      
     })
     .then(res => res.json())
-    .then(res => console.log(res))
+    .then(r => console.log(r))
     .catch(err => console.error(err))
   }
 
