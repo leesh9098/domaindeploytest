@@ -6,6 +6,13 @@ export class AWSDynamoDBClient {
         const region = 'ap-northeast-2';
         const endpoint = "dynamodb.ap-northeast-2.amazonaws.com";
 
+
+        AWS.config.update({
+            accessKeyId: '',
+            secretAccessKey: '',
+            region: ''
+        })
+
         if (!endpoint) {
             this.db = new AWS.DynamoDB.DocumentClient({
                 region: region,
